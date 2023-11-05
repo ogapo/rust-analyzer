@@ -153,7 +153,11 @@ pub enum CrateOrigin {
 
 impl CrateOrigin {
     pub fn is_local(&self) -> bool {
-        matches!(self, CrateOrigin::Local { .. })
+        match self {
+            Self::Local { .. } => true,
+            Self::Library { repo, .. } => repo.is_none(),
+            _ => false,
+        }
     }
 }
 
